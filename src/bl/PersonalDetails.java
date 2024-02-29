@@ -1,4 +1,4 @@
-package BL;
+package bl;
 
 import exceptions.InvalidInfoException;
 import java.util.regex.Matcher;
@@ -6,7 +6,9 @@ import java.util.regex.Pattern;
 
 /**
  * a class used to contain the details of a person
- * set as a class in order to allow flexibility */
+ * set as a class in order to allow flexibility 
+*/
+
 class PersonalDetails {
 	String id;
 	String fname;
@@ -22,10 +24,36 @@ class PersonalDetails {
 		return id;
 	}
 	public void setId(String id) throws InvalidInfoException{
-		if(id == null || id.length() < 9) {
+		if(id == null || id.length() < 9 || id.length() > 10) {
 			throw new InvalidInfoException("invalid Id - trying to create Personal Info");
 		}
-		// more checks for validity
+		int bikoret =  0;
+		int sum = 0, sumID = 0;
+		
+		for(int i = 0; i < 8; i ++) {
+			try {
+				if(i % 2 != 0) {
+					sum = 2 * Integer.parseInt("" + id.charAt(i));
+				}
+				else {
+					sum = Integer.parseInt("" + id.charAt(i));
+				}
+			}
+			catch(NumberFormatException ex) {
+				return;
+			}
+			if(sum > 9) {
+				sum = ((sum % 10) + (sum / 10));
+			}
+			sumID += sum;
+			sum = 0;
+		}
+		bikoret = (10 - (sumID % 10));
+		if(bikoret == 10)
+			bikoret = 0;
+		
+		if(!(bikoret == Integer.parseInt("" + id.charAt(id.length() - 1))))
+			throw new InvalidInfoException("invalid Id - trying to create Personal Info");
 		this.id = id;
 	}
 	

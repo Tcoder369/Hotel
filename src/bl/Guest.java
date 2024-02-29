@@ -1,4 +1,7 @@
-package BL;
+package bl;
+
+import exceptions.InvalidInfoException;
+
 /**
  * A class that represents a guest of the hotel.
  * Properties:
@@ -30,7 +33,9 @@ class Guest {
 	}
 
 	void setNumVisit(int numVisit) {
-		this.numVisit = numVisit  >= 0? numVisit: 0;
+		if(numVisit < 0)
+			throw new InvalidInfoException("invalid number of visits - trying to create guest");
+		this.numVisit = numVisit;
 	}
 	
 	
