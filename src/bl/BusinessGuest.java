@@ -15,6 +15,7 @@ public class BusinessGuest extends Guest {
 	
 	BusinessGuest(PersonalDetails details) {
 		super(details);
+		setGuestCode();
 	}
 	
 	public int getGuestCode() {

@@ -17,14 +17,26 @@ class PersonalDetails {
 	String phone;
 	String phone2;
 	String email;
-	String biilingAdress;
+	String billingAdress;
+	static Integer ids = 100;
 	
+	
+	PersonalDetails(String id, String fname, String mname, String lname, String phone, String phone2, String email, String billingAdress) {
+		setId(id);
+		setFname(fname);
+		setMname(mname);
+		setLname(lname);
+		setPhone(phone);
+		setPhone2(phone2);
+		setEmail(email);
+		setBillingAdress(billingAdress);
+	}
 	
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) throws InvalidInfoException{
-		if(id == null || id.length() < 9 || id.length() > 10) {
+		if(id == null || (id.length() < 9 || id.length() > 10)) {
 			throw new InvalidInfoException("invalid Id - trying to create Personal Info");
 		}
 		int bikoret =  0;
@@ -48,13 +60,14 @@ class PersonalDetails {
 			sumID += sum;
 			sum = 0;
 		}
+		
 		bikoret = (10 - (sumID % 10));
 		if(bikoret == 10)
 			bikoret = 0;
 		
 		if(!(bikoret == Integer.parseInt("" + id.charAt(id.length() - 1))))
 			throw new InvalidInfoException("invalid Id - trying to create Personal Info");
-		this.id = id;
+		this.id = id;	
 	}
 	
 	public String getFname() {
@@ -134,9 +147,7 @@ class PersonalDetails {
 	}
 	
 	public void setPhone2(String phone) {
-		if(phone == null || phone.length() == 0) {
-			throw new InvalidInfoException("invalid last name - trying to create Personal Info");
-		}
+
 		Pattern pattern = Pattern.compile("/^(?:(?:(\\+?972|\\(\\+?972\\)|\\+?\\(972\\))(?:\\s|\\.|-)?([1-9]\\d?))|(0[23489]{1})|(0[57]{1}[0-9]))(?:\\s|\\.|-)?([^0\\D]{1}\\d{2}(?:\\s|\\.|-)?\\d{4})$/gm"
 				);
 	    Matcher matcher = pattern.matcher(phone);
@@ -153,9 +164,6 @@ class PersonalDetails {
 	}
 	
 	public void setEmail(String email) {
-		if(email == null || email.length() == 0) {
-			throw new InvalidInfoException("invalid email - trying to create Personal Info");
-		}
 		Pattern pattern = Pattern.compile("/^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$/gi",
 				Pattern.CASE_INSENSITIVE);
 	    Matcher matcher = pattern.matcher(phone);
@@ -166,15 +174,12 @@ class PersonalDetails {
 	    }
 		this.email = email.toLowerCase();
 	}
-	public String getBiilingAdress() {
-		return biilingAdress;
+	public String getBillingAdress() {
+		return billingAdress;
 	}
 	
-	public void setBiilingAdress(String biilingAdress) {
-		if(biilingAdress == null || biilingAdress.length() == 0) {
-			throw new InvalidInfoException("invalid billing address - trying to create Personal Info");
-		}
-		this.biilingAdress = biilingAdress;
+	public void setBillingAdress(String billingAdress) {
+		this.billingAdress = billingAdress;
 	}
 	
 	
