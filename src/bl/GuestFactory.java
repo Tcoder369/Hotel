@@ -7,18 +7,10 @@ import java.util.stream.Collectors;
 import exceptions.InvalidInfoException;
 
 public class GuestFactory {
-	public ArrayList<Guest> guests = new ArrayList<Guest>();
-	public static GuestFactory instance;
+	public ArrayList<Guest> guests;
 	
-	private GuestFactory() {
-		
-	}
-	
-	public static synchronized GuestFactory instance() {
-		if(instance == null) {
-			instance = new GuestFactory();
-		}
-		return instance;
+	GuestFactory() {
+		this.guests = new ArrayList<Guest>();
 	}
 	
 	public void addGuest() {
@@ -68,6 +60,14 @@ public class GuestFactory {
 			billingAdress = in.next();
 		}
 			
+
+		char business = ' ';
+		do {
+			System.out.println("Is this a business guest? [y/n]");
+		}
+		while(business!=' ' && business != 'y' && business != 'n');
+		
+		
 		try {
 			PersonalDetails details = new PersonalDetails(
 					id,
@@ -78,10 +78,15 @@ public class GuestFactory {
 					phone2,
 					email,
 					billingAdress);
-			Guest guest = new Guest(details);
-			this.guests.add(guest);
-					
+			
+			Guest guest;
+			if(business == 'y') 
+				guest = new BusinessGuest(details);
+			else 
+				guest = new Guest(details);
+			this.guests.add(guest);		
 		}
+		
 		catch (InvalidInfoException ex) {
 			System.out.println("Woops! looks like some of the information you provided was incorrect: ");
 			System.out.println(ex.getMessage());
@@ -95,6 +100,7 @@ public class GuestFactory {
 				return;
 			}
 		}
+		
 		System.out.println("Guest Added Successfully!");
 	}
 	
